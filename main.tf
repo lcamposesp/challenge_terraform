@@ -23,6 +23,8 @@ terraform {
 
 provider "aws" {
   region = "us-east-1"
+  access_key = var.aws_access_key
+  secret_key = var.aws_secret_access_key
 }
 
 resource "random_pet" "sg" {}
@@ -44,7 +46,7 @@ data "aws_ami" "ubuntu" {
 }
 
 resource "aws_instance" "web" {
-  ami                    = "ami-026b57f3c383c2eec"
+  ami                    = data.aws_ami.ubuntu.id
   instance_type          = "t2.micro"
   vpc_security_group_ids = [aws_security_group.web-sg.id]
 
