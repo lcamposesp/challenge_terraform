@@ -5,4 +5,11 @@ terraform {
       version = "~> 4.0"
     }
   }
+  cloud {
+    organization = "terraform-luis"
+
+    workspaces {
+      name = "challenge-terraform"
+    }
+  }
 }
