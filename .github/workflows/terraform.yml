@@ -43,7 +43,6 @@ jobs:
     - name: Terraform Plan
       with:
         cli_config_credentials_token: ${{ secrets.TF_AWS_ACCESS_TOKEN }}
-
       run: terraform plan -input=false
 
       # On push to "main", build or change infrastructure according to Terraform configuration files
