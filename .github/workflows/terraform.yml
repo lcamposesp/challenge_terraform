@@ -34,15 +34,10 @@ jobs:
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
-      env:
-        TF_AWS_ACCESS_KEY: ${{secrets.TF_AWS_ACCESS_KEY}}
-        TF_AWS_SECRET_ACCESS_KEY: ${{secrets.TF_AWS_SECRET_ACCESS_KEY}}
       run: terraform init
-      
+
     # Generates an execution plan for Terraform
     - name: Terraform Plan
-      with:
-        cli_config_credentials_token: ${{ secrets.TF_AWS_ACCESS_TOKEN }}
       run: terraform plan -input=false
 
       # On push to "main", build or change infrastructure according to Terraform configuration files
