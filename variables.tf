@@ -1,3 +1,5 @@
+## Variables no necesarias en este caso
+
 variable "aws_access_key" {
   type        = string
   description = "AWS Access key for the EC2 provisioning"
