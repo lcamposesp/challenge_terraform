@@ -1,9 +1,8 @@
-
 terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 4.0"
+      version = "4.1.0"
     }
     random = {
       source  = "hashicorp/random"
@@ -21,10 +20,11 @@ terraform {
   }
 }
 
+## Error que obtengo cuando corre este bloque es el mismo que este
+## https://github.com/GoogleCloudPlatform/terraformer/issues/1428
+
 provider "aws" {
   region = "us-east-1"
-  access_key = var.aws_access_key
-  secret_key = var.aws_secret_access_key
 }
 
 resource "random_pet" "sg" {}
