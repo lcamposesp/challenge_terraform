@@ -22,6 +22,8 @@ terraform {
 
 ## Error que obtengo cuando corre este bloque es el mismo que este
 ## https://github.com/GoogleCloudPlatform/terraformer/issues/1428
+## Error fue resuelto mediante la utilizacion de las variables de ambiente en TF Cloud como
+## AWS_ACCESS_KEY en vez de TF_AWS_ACCESS_KEY
 
 provider "aws" {
   region = "us-east-1"
