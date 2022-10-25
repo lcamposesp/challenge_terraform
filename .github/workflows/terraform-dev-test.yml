@@ -1,6 +1,8 @@
 name: 'Terraform Dev Test'
 
 on:
+  push:
+    branches: ["dev-test"]
   pull_request:
     branches: ["dev-test"]
     
