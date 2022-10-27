@@ -64,7 +64,7 @@ resource "aws_security_group" "web-sg" {
   }
 }
 
-output "test_value"{
+output "test-value" {
   value = "Instancia de AWS completada de manera correcta"
 }
 
