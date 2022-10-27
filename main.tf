@@ -64,6 +64,10 @@ resource "aws_security_group" "web-sg" {
   }
 }
 
+output "test_value"{
+  value = "Instancia de AWS completada de manera correcta"
+}
+
 output "web-address" {
   value = "${aws_instance.web.public_dns}:8080"
 }
