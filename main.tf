@@ -26,48 +26,35 @@ terraform {
 ## AWS_ACCESS_KEY en vez de TF_AWS_ACCESS_KEY
 
 provider "aws" {
-  region = "us-east-1"
+  region = "us-east-2"
 }
 
-resource "random_pet" "sg" {}
-
-resource "aws_instance" "web" {
-  ami                    = "ami-026b57f3c383c2eec"
+# Deploy an EC2 Instance.
+resource "aws_instance" "example" {
+  # Run an Ubuntu 18.04 AMI on the EC2 instance.
+  ami                    = "ami-0d5d9d301c853a04a"
   instance_type          = "t2.micro"
-  vpc_security_group_ids = [aws_security_group.web-sg.id]
+  vpc_security_group_ids = [aws_security_group.instance.id]
 
-  user_data = <<-EOF
-              #!/bin/bash
-              apt-get update
-              apt-get install -y apache2
-              sed -i -e 's/80/8080/' /etc/apache2/ports.conf
-              echo "Hello World" > /var/www/html/index.html
-              systemctl restart apache2
-              EOF
+  # When the instance boots, start a web server on port 8080 that responds with "Hello, World!".
+  user_data = <<EOF
+#!/bin/bash
+echo "Hello, World!" > index.html
+nohup busybox httpd -f -p 8080 &
+EOF
 }
 
-resource "aws_security_group" "web-sg" {
-  name = "${random_pet.sg.id}-sg"
+# Allow the instance to receive requests on port 8080.
+resource "aws_security_group" "instance" {
   ingress {
     from_port   = 8080
     to_port     = 8080
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-  // connectivity to ubuntu mirrors is required to run `apt-get update` and `apt-get install apache2`
-  egress {
-    from_port        = 0
-    to_port          = 0
-    protocol         = "-1"
-    cidr_blocks      = ["0.0.0.0/0"]
-    ipv6_cidr_blocks = ["::/0"]
-  }
 }
 
-output "test-value" {
-  value = "Instancia de AWS completada de manera correcta"
-}
-
-output "web-address" {
-  value = "${aws_instance.web.public_dns}:8080"
+# Output the instance's public IP address.
+output "public_ip" {
+  value = aws_instance.example.public_ip
 }

@@ -46,3 +46,6 @@ jobs:
       uses: jakejarvis/wait-action@master
       with:
         time: '30s'
+        
+    - name: Terraform Destroy
+    - run: terraform destroy
