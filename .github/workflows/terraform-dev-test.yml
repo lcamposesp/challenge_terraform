@@ -34,8 +34,8 @@ jobs:
 
     # Correr Go Test
     - name: Terratest Run
-    - run: go test
-    - working-directory: test/
+      run: go test
+      working-directory: test/
 
     # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
     - name: Setup Terraform
