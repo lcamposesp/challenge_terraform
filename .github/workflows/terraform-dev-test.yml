@@ -26,18 +26,11 @@ jobs:
       with:
         go-version: '^1.13.1' # The Go version to download (if necessary) and use.
     - run: go version
-    
+
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout
       uses: actions/checkout@v3
-
-
-    # Correr Go Test
-    - name: Terratest Run
-      working-directory: test/
-      run: go test
-      
-
+   
     # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
@@ -52,6 +45,11 @@ jobs:
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
       run: terraform init
+    
+    # Correr Go Test
+    - name: Terratest Run
+      working-directory: test/
+      run: go test
     
     # Generates an execution plan for Terraform
     - name: Terraform Plan
