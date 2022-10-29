@@ -26,13 +26,13 @@ terraform {
 ## AWS_ACCESS_KEY en vez de TF_AWS_ACCESS_KEY
 
 provider "aws" {
-  region = "us-east-2"
+  region = "us-east-1"
 }
 
 # Deploy an EC2 Instance.
 resource "aws_instance" "example" {
   # Run an Ubuntu 18.04 AMI on the EC2 instance.
-  ami                    = "ami-0d5d9d301c853a04a"
+  ami                    = "ami-026b57f3c383c2eec"
   instance_type          = "t2.micro"
   vpc_security_group_ids = [aws_security_group.instance.id]
 

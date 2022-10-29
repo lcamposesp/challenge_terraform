@@ -1,5 +1,3 @@
-
-
 package test
 
 import (
@@ -12,7 +10,7 @@ import (
 	"github.com/gruntwork-io/terratest/modules/terraform"
 )
 
-func TestTerraformAwsHelloWorldExample(t *testing.T) {
+func TestTerraformAwsAPI(t *testing.T) {
 	t.Parallel()
 
 	// Construct the terraform options with default retryable errors to handle the most common
@@ -33,7 +31,7 @@ func TestTerraformAwsHelloWorldExample(t *testing.T) {
 
 	// Make an HTTP request to the instance and make sure we get back a 200 OK with the body "Hello, World!"
 	url := fmt.Sprintf("http://%s:8080", publicIp)
-	http_helper.HttpGetWithRetry(t, url, nil, 200, "Hello, World!", 30, 5*time.Second)
+	http_helper.HttpGetWithRetry(t, url, nil, 200, "Hello, World!", 60, 10*time.Second)
 }
 
 
