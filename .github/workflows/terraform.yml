@@ -35,11 +35,6 @@ jobs:
     - name: Terraform Init
       run: terraform init
     
-    # Correr Go Test
-    - name: Terratest Run
-      working-directory: test/
-      run: go test
-
     # Generates an execution plan for Terraform
     - name: Terraform Plan
       run: terraform plan -input=false
@@ -52,6 +47,3 @@ jobs:
       uses: jakejarvis/wait-action@master
       with:
         time: '30s'
-
-    - name: Terraform Destroy
-    - run: terraform destroy
