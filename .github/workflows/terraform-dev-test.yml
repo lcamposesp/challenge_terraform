@@ -51,7 +51,7 @@ jobs:
     # Correr Go Test
     - name: Terratest Run
       working-directory: test/
-      run: go test
+      run: go test -timeout 30m
     
     # Generates an execution plan for Terraform
     - name: Terraform Plan
