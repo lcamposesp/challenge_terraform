@@ -4,6 +4,11 @@
   hosts: webservers
   become: yes
   tasks:
+    - name: Creates directory
+      file:
+        path: /src/www
+        state: directory
+
     - name: Update all packages
       yum:
         name: '*'
@@ -43,3 +48,17 @@
         - boto
         - boto3
         - docker-compose
+
+    - name: Copy Docker Compose files
+      copy:
+        src: files/docker-compose.yaml
+        dest: /src/www/docker-compose.yml 
+      loop:
+      - docker-compose.yml
+
+    # use files parameter to use multiple docker-compose.yml files
+    - name: Deploy Docker Compose stack
+      community.docker.docker_compose:
+        project_src: /src/www
+        files:
+          - docker-compose.yml
