@@ -28,29 +28,51 @@ terraform {
 provider "aws" {
   region = "us-east-1"
 }
+resource "tls_private_key" "example" {
+  algorithm = "RSA"
+  rsa_bits  = 4096
+}
 
 resource "random_pet" "sg" {}
+
+resource "aws_key_pair" "generated_key" {
+  key_name   = "aws_key_for_ansible"
+  public_key = tls_private_key.example.public_key_openssh
+}
 
 resource "aws_instance" "web" {
   ami                    = "ami-026b57f3c383c2eec"
   instance_type          = "t2.micro"
   vpc_security_group_ids = [aws_security_group.web-sg.id]
 
-  user_data = <<-EOF
-              #!/bin/bash
-              apt-get update
-              apt-get install -y apache2
-              sed -i -e 's/80/8080/' /etc/apache2/ports.conf
-              echo "Hello World" > /var/www/html/index.html
-              systemctl restart apache2
-              EOF
+  key_name = aws_key_pair.generated_key.key_name
+
+  provisioner "remote-exec"{
+    inline = ["echo 'wait until SSH is ready'"]
+
+    connection {
+      type = "ssh"
+      user = "ec2-user"
+      private_key = tls_private_key.example.private_key_pem
+      host = aws_instance.web.public_ip
+    }
+  }
+
 }
 
 resource "aws_security_group" "web-sg" {
   name = "${random_pet.sg.id}-sg"
+  
+  ingress{
+    from_port = 22
+    to_port = 22
+    protocol = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
   ingress {
-    from_port   = 8080
-    to_port     = 8080
+    from_port   = 80
+    to_port     = 80
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -68,6 +90,10 @@ output "test-value" {
   value = "Instancia de AWS completada de manera correcta"
 }
 
+output "private_key" {
+  value     = nonsensitive(tls_private_key.example.private_key_pem)
+}
+
 output "web-address" {
-  value = "${aws_instance.web.public_dns}:8080"
+  value = "${aws_instance.web.public_dns}:80"
 }
