@@ -52,13 +52,13 @@
     - name: Copy Docker Compose files
       copy:
         src: files/docker-compose.yaml
-        dest: /src/www/docker-compose.yml 
+        dest: /src/www/docker-compose.yaml 
       loop:
-      - docker-compose.yml
+      - docker-compose.yaml
 
     # use files parameter to use multiple docker-compose.yml files
     - name: Deploy Docker Compose stack
       community.docker.docker_compose:
-        project_src: /src/www
+        project_src: /src/www/
         files:
-          - docker-compose.yml
+          - docker-compose.yaml
