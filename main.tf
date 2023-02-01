@@ -20,6 +20,7 @@ terraform {
   }
 }
 
+## Hello Wordy Wednesday crew!
 ## Error que obtengo cuando corre este bloque es el mismo que este
 ## https://github.com/GoogleCloudPlatform/terraformer/issues/1428
 ## Error fue resuelto mediante la utilizacion de las variables de ambiente en TF Cloud como
